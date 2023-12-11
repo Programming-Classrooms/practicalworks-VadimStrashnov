@@ -1,4 +1,4 @@
-// Пример 5
+// Пример 5 в файле lb1
 
 
 #include <iostream>
@@ -14,7 +14,7 @@ void inputNumber(double& number)
 
 void checkNumber(double number)
 {
-  if (number <= -1  number > 1)
+  if (number <= -1 || number > 1)
   {
     throw " Wrong number! ";
   }
@@ -46,7 +46,7 @@ void inputEpsilon(double& epsilon)
 
 void checkEpsilon(double epsilon, size_t accuracy)
 {
-  if (epsilon <= 0  epsilon >= pow(10, accuracy))
+  if (epsilon <= 0 || epsilon >= pow(10, accuracy))
   {
     throw " Wrong epsilon! ";
   }
