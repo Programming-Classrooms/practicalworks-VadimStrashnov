@@ -1,50 +1,52 @@
 //Написать программу, которая для заданного натурального числа  выполняет разложение числа на простые множители
 
+
 #include <iostream>
+#include <exception>
 
 
-void number_check(int& number)
+void checkNumber(int32_t& number)
 {
   if (number < 1)
   {
-    throw " Wrong number! ";
+    throw " Wrong number!\n";
   }
 }
 
 
-void number_input(int& number)
+void inputNumber(int32_t& number)
 {
-  std::cout << " Write element: ";
+  std::cout << " Write element:\n";
   std::cin >> number;
 }
 
 
-void div_op1(int& number, int& div)
+void findingPrimeFactors(int32_t& number, int32_t& div)
 {
-  while ((number % div) == 0 && number != div)
+  while ((number % divider) == 0 && number != divider)
   {
-    number /= div;
-    std::cout << div << " * ";
+    number /= divider;
+    std::cout << divider << " * ";
   }
 }
 
 
-void div_op2(int& number, int& div)
+void findingTheLastPrimeFactor(int32_t& number, int32_t& div)
 {
-  if (number == div)
+  if (number == divider)
   {
-    number /= div;
-    std::cout << div;
+    number /= divider;
+    std::cout << divider;
   }
 }
 
 
-void operation(int& number)
+void forizataction(int32_t& number)
 {
-  for (int div = 2; div <= number; ++div)
+  for (int divider = 2; divider <= number; ++divider)
   {
-    div_op1(number, div);
-    div_op2(number, div);
+    findingPrimeFactors(number, divider);
+    findingTheLastPrimeFactor(number, divider);
   }
 }
 
@@ -53,11 +55,12 @@ int main()
 {
   try
   {
-    int number = 0;
-    number_input(number);
-    number_check(number);
-    std::cout << " Your number: " << number << " = ";
-    operation(number);
+    int32_t number = 0;
+
+    inputNumber(number);
+    checkNumber(number);
+    std::cout << " Your number:\n" << number << " = ";
+    factorization(number);
   }
   catch (const char* msg)
   {
@@ -65,4 +68,3 @@ int main()
   }
   return 0;
 }
-

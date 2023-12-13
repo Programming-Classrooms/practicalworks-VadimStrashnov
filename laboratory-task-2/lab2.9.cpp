@@ -2,63 +2,72 @@
 
 
 #include <iostream>
+#include <exception>
 
 
-void number_input(size_t& number)
+void inputNumber(size_t& number)
 {
   std::cout << " Write number: " << '\n';
   std::cin >> number;
 }
 
 
-int number_sum(size_t number)
+int countSum(size_t number)
 {
   size_t sum = 0;
-  for (size_t index = 1; index < number; ++index)
+  for (size_t i = 1; i < number; ++i)
   {
-    if (number % index == 0)
+    if (number % i == 0)
     {
-      sum += index;
+      sum += i;
     }
   }
   return sum;
 }
 
 
-void allies_search(size_t number)
+void searchForFriendlyNumbers(size_t number)
 {
   std::cout << " Your result: ";
-  for (size_t index = 2; index < number; ++index)
+  for (size_t i = 2; i < number; ++i)
   {
-    for (size_t ally = 0; ally < index; ++ally)
+    for (size_t ally = 0; ally < i; ++ally)
     {
-      if (number_sum(index) == ally && number_sum(ally) == index)
+      if (countSum(i) == ally && countSum(ally) == i)
       {
-        std::cout << ally << " & " << index << " ";
+        std::cout << ally << " & " << i << " ";
       }
     }
   }
 }
 
 
-void number_check(size_t& number)
+void checkNumber(size_t& number)
 {
   if (number < 1)
   {
-    std::cout << " Wrong number! " << '\n';
+    throw " Wrong number! ";
   }
   else
   {
-    allies_search(number);
+    searchForFriendlyNumbers(number);
   }
 }
 
 
 int main()
 {
+  try
+  {
   size_t number = 0;
-  number_input(number);
-  number_check(number);
+  
+  inputNumber(number);
+  checkNumber(number);
+  }
+  catch (const char* msg)
+  {
+    std::cout << msg;
+  }
   return 0;
 }
 

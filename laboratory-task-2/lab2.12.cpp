@@ -3,23 +3,16 @@
 
 #include <iostream>
 #include <cmath>
+#include <exception>
 
 
-void min_input(int& min)
+void inputBorder(int32_t& border)
 {
-  std::cout << " Min: ";
-  std::cin >> min;
+  std::cin >> border;
 }
 
 
-void max_input(int& max)
-{
-  std::cout << " Max: ";
-  std::cin >> max;
-}
-
-
-void natural_check(int& min, int& max)
+void checkNatural(int32_t min, int32_t max)
 {
   if (min < 1 || max < 1)
   {
@@ -28,9 +21,9 @@ void natural_check(int& min, int& max)
 }
 
 
-void diapazone_check(int& min, int& max)
+void checkDiapazone(int32_t& min, int32_t& max)
 {
-  natural_check(min, max);
+  checkNatural(min, max);
   if (min > max)
   {
     std::swap(min, max);
@@ -38,18 +31,20 @@ void diapazone_check(int& min, int& max)
 }
 
 
-void diapazone(int& min, int& max)
+void inputDiapazone(int32_t& min, int32_t& max)
 {
-  std::cout << " Write diapazone: " << '\n';
-  min_input(min);
-  max_input(max);
-  diapazone_check(min, max);
+  std::cout << " Write diapazone:\n";
+  std::cout << " Min:\n";
+  inputBorder(min);
+  std::cout << " Max:\n";
+  inputBorder(max);
+  checkDiapazone(min, max);
 }
 
 
-int count(int& number, int twin)
+int32_t countDegree(int32_t number, int32_t twin)
 {
-  int degree = 1;
+  int32_t degree = 1;
   twin = number;
   while ( twin >= 10 )
   {
@@ -60,13 +55,13 @@ int count(int& number, int twin)
 }
 
 
-int sum_search( int twin, int number)
+int32_t countSum( int32_t twin, int32_t number)
 {
-  int sum = 0;
-  int degree = count(number, twin);
-  int remainder = 0;
+  int32_t sum = 0;
+  int32_t degree = countDegree(number, twin);
+  int32_t remainder = 0;
   twin = number;
-  for (int index = 0; index < degree; ++index)
+  for (int32_t i = 0; i < degree; ++i)
   {
     remainder = twin % 10;
     twin = ( twin - remainder ) / 10;
@@ -77,13 +72,14 @@ int sum_search( int twin, int number)
 }
 
 
-void operation(int& min, int& max, int& twin)
+void searchArmstrongNumbers(int32_t min, int32_t max)
 {
-  std::cout << " Your result: ";
-  for (int number = min; number <= max; ++number)
+  std::cout << " Your result:\n";
+  int32_t twin = 0;
+  for (int32_t number = min; number <= max; ++number)
   {
     twin = 0;
-    int sum = sum_search(twin, number);;
+    int32_t sum = countSum(twin, number);
     if (number == sum)
     {
       std::cout << number << " ";
@@ -96,10 +92,10 @@ int main()
 {
   try 
   {
-    int twin = 0;
-    int min = 0, max = 0;
-    diapazone(min, max);
-    operation(min, max, twin);
+    int32_t min = 0;
+    int32_t max = 0;
+    inputDiapazone(min, max);
+    searchArmstrongNumbers(min, max);
   }
   catch (const char* msg)
   {
@@ -107,4 +103,3 @@ int main()
   }
   return 0;
 }
-
