@@ -5,81 +5,115 @@
 
 
 #include <iostream>
+#include <iomanip>
+#include <exception>
 
 
 void chooseMtrxFieldWay(size_t& mode)
 {
-  std::cout << " choose elements ( press 1 ) or random elements ( press 2 ): " << '\n';
-  std::cin >> mode;
+  std::cout << " choose elements ( press 1 ) or random elements ( press 2 ):\n";
+  std::cin.getline (mode, 10);
 }
 
 
-void inputBorder(size_t& border)
+void inputBorder(int32_t& border)
 {
-  std::cout << " Input  " << '\n';
   std::cin >> border;
 }
 
 
-void random(size_t rows, size_t** mtr, size_t low_border, size_t high_border)
+void checkBorders(int32_t low_border, int32_t high_border)
+{
+  if (low_border > high_border)
+      {
+        std::swap(low_border, high_border);
+      }
+}
+
+
+void random(int32_t rows, int32_t** mtrx, int32_t low_border, int32_t high_border)
 {
   for (size_t i = 0; i < rows; ++i)
   {
     for (size_t j = 0; j < rows; ++j)
     {
-      mtr[i][j] = (rand() % (high_border - low_border)) + low_border;
+      mtrx[i][j] = (rand() % (high_border - low_border)) + low_border;
     }
   }
   return;
 }
 
 
-void inputRows(size_t& rows)
+void inputRows(int32_t& rows)
 {
-  std::cout << " Write size of matrix: " << '\n';
+  std::cout << " Write size of matrix:\n";
   std::cin >> rows;
 }
 
 
-void checkRows(size_t rows)
+void checkRows(int32_t rows)
 {
   if (rows < 3  rows % 2 != 1)
   {
-    throw " Wrong size! ";
+    throw " Wrong size!\n";
   }
 }
 
 
-void createMtrx(size_t** mtr, size_t rows)
+void createMtrx(int32_t**& mtrx, int32_t rows)
 {
-  for (size_t i = 0; i < rows; ++i)
+  mtrx = new int32_t* [rows];
+  for (int32_t i = 0; i < rows; ++i)
   {
-    mtr[i] = new size_t {0};
+    mtrx[i] = new int32_t [rows];
   }
 }
 
 
-void inputElement(size_t** mtr, size_t rows)
+void inputElement(int32_t** mtrx, int32_t rows)
 {
-  std::cout << " Write elements of matrix: " << '\n';
-  for (size_t i = 0; i < rows; ++i)
+  std::cout << " Write elements of matrix:\n";
+  for (int32_t i = 0; i < rows; ++i)
   {
-    for (size_t j = 0; j < rows; ++j)
+    for (int32_t j = 0; j < rows; ++j)
     {
-      std::cin >> mtr[i][j];
+      std::cin >> mtrx[i][j];
     }
   }
 }
 
 
-void outputMtrx(size_t** mtr, size_t rows)
+void menu (int32_t rows, int32_t** mtrx, int32_t& low_border, int32_t& high_border, int32_t mode)
 {
-  std::cout << " Your matrix: " << '\n';
+  switch (mode)
+    {
+    case 1:
+      inputElement(mtrx, rows);
+      break;
+    case 2:
+      std::cout << " Write range:\n";
+      std::cout << " Input Min\n";
+      inputBorder(low_border);
+      std::cout << " Input Max:\n";
+      inputBorder(high_border);
+      checkBorders(low_border, high_border);
+      random(rows, mtrx, low_border, high_border);
+      break;
+    default:
+      throw " Wrong command!\n";
+      break;
+    }
+}
+
+
+void outputMtrx(int32_t** mtrx, int32_t rows)
+{
+  std::cout << " Your matrix:\n";
   for (size_t i = 0; i < rows; ++i)
   {
     for (size_t j = 0; j < rows; ++j)
     {
-      std::cout << " " << mtr[i][j];
+      std::cout << std::setw(7) << mtrx[i][j];
       if (j == rows - 1)
       {
         std::cout << '\n';
@@ -89,15 +123,15 @@ void outputMtrx(size_t** mtr, size_t rows)
 }
 
 
-size_t lowRightTriangleSum(size_t** mtr, size_t rows)
+int32_t lowRightTriangleSum(int32_t** mtrx, int32_t rows)
 {
-  size_t triangeSum = 0, counter = 1;
-  std::cout << " Your sum: " << '\n';
+  int32_t triangeSum = 0, counter = 1;
+  std::cout << " Your sum:\n";
   for (size_t i = 0; i < rows; ++i)
   {
     for (size_t j = rows - counter; j < rows; ++j)
     {
-      triangeSum += mtr[i][j];
+      triangeSum += mtrx[i][j];
     }
     ++counter;
   }
@@ -105,40 +139,40 @@ size_t lowRightTriangleSum(size_t** mtr, size_t rows)
 }
 
 
-void outputSpiral(size_t** mtr, size_t rows)
+void outputSpiral(int32_t** mtrx, int32_t rows)
 {
-  size_t counter = 0, mid = (rows - 1) / 2;
-  std::cout << " Your numbers: " << '\n' << mtr[mid][mid] << " ";
-  for (size_t i = 0; i < rows - 1; i += 2)
+  int32_t counter = 0, mid = (rows - 1) / 2;
+  std::cout << " Your numbers:\n" << mtrx[mid][mid] << " ";
+  for (int32_t i = 0; i < rows - 1; i += 2)
   {
     for (size_t j = 0; j <= i + 1; ++j)
     {
-      std::cout << mtr[mid + (counter + 1)][mid - counter - j] << " ";
+      std::cout << mtrx[mid + (counter + 1)][mid - counter - j] << " ";
     }
-    for (size_t k = 0; k <= i + 1; ++k)
+    for (size_t j = 0; j <= i + 1; ++j)
     {
-      std::cout << mtr[mid + counter - k][mid - (counter + 1)] << " ";
+      std::cout << mtrx[mid + counter - j][mid - (counter + 1)] << " ";
     }
-    for (size_t f = 0; f <= i + 1; ++f)
+    for (size_t j = 0; j <= i + 1; ++j)
     {
-      std::cout << mtr[mid - (counter + 1)][mid - counter + f] << " ";
+      std::cout << mtrx[mid - (counter + 1)][mid - counter + j] << " ";
     }
-    for (size_t g = 0; g <= i + 1; ++g)
+    for (size_t j = 0; j <= i + 1; ++j)
     {
-      std::cout << mtr[mid - counter + g][mid + (counter + 1)] << " ";
+      std::cout << mtrx[mid - counter + j][mid + (counter + 1)] << " ";
     }
     ++counter;
   }
 }
 
 
-void deleteMtrx(size_t** mtr, size_t rows)
+void deleteMtrx(int32_t**& mtrx, int32_t rows)
 {
   for (size_t i = 0; i < rows; ++i)
   {
-    delete[] mtr[i];
+    delete[] mtrx[i];
   }
-  delete [] mtr;
+  delete [] mtrx;
 }
 
 
@@ -146,45 +180,30 @@ int main()
 {
   try
   {
-    size_t rows = 0, mode = 0, low_border = 0, high_border = 0;
-    size_t** mtr = new size_t* { 0 };
+    int32_t rows = 0;
+    int32_t mode = 0;
+    int32_t low_border = 0;
+    int32_t high_border = 0;
+    int32_t** mtrx = nullptr;
+    
     inputRows(rows);
     checkRows(rows);
-    createMtrx(mtr, rows);
+    createMtrx(mtrx, rows);
     chooseMtrxFieldWay(mode);
-    switch (mode)
-    {
-    case 1:
-      inputElement(mtr, rows);
-      break;
-    case 2:
-      std::cout << " Write diapazon: " << '\n';
-      std::cout << " Input Min " << '\n';
-      inputBorder(low_border);
-      std::cout << " Input Max " << '\n';
-      inputBorder(high_border);
-      if (low_border > high_border)
-      {
-        std::swap(low_border, high_border);
-      }
-      random(rows, mtr, low_border, high_border);
-      break;
-    default:
-      throw " Wrong command! ";
-      break;
-    }
-    outputMtrx(mtr, rows);
+    menu (rows, mtrx, low_border, high_border, mode);
+    outputMtrx(mtrx, rows);
     
     //mission 1
-    std::cout << lowRightTriangleSum(mtr, rows) << '\n';
+    std::cout << lowRightTriangleSum(mtrx, rows) << '\n';
 
     //mission 2
-    outputSpiral(mtr, rows);
-    deleteMtrx(mtr, rows);
+    outputSpiral(mtrx, rows);
+    deleteMtrx(mtrx, rows);
   }
   catch (const char* msg)
   {
     std::cout << msg;
+    deleteMtrx(mtrx, rows);
   }
+  return 0;
 }
-
