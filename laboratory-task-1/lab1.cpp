@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <exception>
 
 
 void inputNumber(double& number)
@@ -70,7 +71,8 @@ int main()
   try
   {
     size_t accuracy = 0;
-    double epsilon = 0, number;
+    double epsilon = 0;
+    double number = 0;
     inputNumber(number);
     checkNumber(number);
     inputAccuracy(accuracy);
@@ -84,4 +86,3 @@ int main()
     std::cout << msg;
   }
 }
-
