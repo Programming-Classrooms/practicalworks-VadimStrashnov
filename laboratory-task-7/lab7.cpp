@@ -1,4 +1,18 @@
-// 12 Пример на фото
+/*  При написании программ использовать нуль–терминированные строки
+    и работать только с типом char *. Длина каждой строки не превосходит 300
+    символов. Словом, входящим в состав строки, назовём непрерывную
+    последовательность символов, ограниченную символами–разделителями,
+    началом и концом строки. Символы, относящиеся к разделителям, определяет
+    пользователь, если иное не сказано в условии задачи.
+
+    Пример #12: 
+    Даны две строки, состоящие из слов, разделённых одним или
+    несколькими пробелами. Из слов этих строк сформировать новую строку так,
+    чтобы слова в ней чередовались: сначала слово из первой строки, затем через
+    пробел – слово из другой строки и т.д., а в конце поместить слова,
+    оставшиеся без пары. Слова в новой строке должны разделяться ровно одним
+    пробелом.
+*/
 
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -6,7 +20,7 @@
 #include <string.h>
 
 
-void inputString(char*& str)
+void inputString(char* str)
 {
   std::cin.getline(str, 300);
 }
@@ -31,13 +45,14 @@ void createBigString(char* str1, char* str2, char*& finalstr, char* delims)
   finalstr = strcpy(finalstr, pch1);
   finalstr = strcat(finalstr, " ");
   pch1 = strtok_s(NULL, delims, &str1);
-  while (pch1 != NULL || pch2 != NULL) {
 
+  while (pch1 != NULL || pch2 != NULL) {
     if (pch2 != NULL) {
       finalstr = strcat(finalstr, pch2);
       finalstr = strcat(finalstr, " ");
       pch2 = strtok_s(NULL, delims, &str2);
     }
+
     if (pch1 != NULL) {
       finalstr = strcat(finalstr, pch1);
       finalstr = strcat(finalstr, " ");
@@ -61,13 +76,16 @@ int main()
     inputString(str2);
     std::cout << " Write delimeters:\n";
     inputString(delims);
+    delims = strcat(delims, " ");
     sortString(str1);
     sortString(str2);
     createBigString(str1, str2, finalstr, delims);
+
     std::cout << " Your final string: " << finalstr;
   }
-  catch (const char* msg) {
-    std::cout << msg;
+  catch (const std::exception e) {
+    std::cout << e.what();
   }
+  
   return 0;
 }
