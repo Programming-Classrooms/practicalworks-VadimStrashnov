@@ -1,5 +1,6 @@
-/*Написать программу, которая на заданном отрезке[a, b] натурального ряда чисел
-  находит все числа Армстронга */
+/*  Написать программу, которая на заданном отрезке[a, b] натурального ряда чисел
+    находит все числа Армстронга 
+*/
 
 
 #include <iostream>
@@ -16,7 +17,7 @@ void inputBorder(int32_t& border)
 void checkNatural(int32_t min, int32_t max)
 {
     if (min < 1 || max < 1){
-        throw " Wrong diapazone! ";
+        throw std::exception (" Wrong diapazone!\n");
     }
 }
 
@@ -39,6 +40,7 @@ int32_t countDegree(int32_t number, int32_t twin)
         twin = (float)twin / 10;
         ++degree;
     }
+
     return degree;
 }
 
@@ -56,6 +58,7 @@ int32_t countSum(int32_t twin, int32_t number)
         sum += pow(remainder, degree);
         remainder = 0;
     }
+
     return sum;
 }
 
@@ -87,12 +90,14 @@ int main()
         std::cout << " Max:\n";
         inputBorder(max);
         checkRange(min, max);
+
         std::cout << " Your result:\n";
         searchArmstrongNumbers(min, max);
     }
-    catch (const char* msg)
+    catch (std::exception e)
     {
-        std::cout << msg;
+        std::cout << e.what();
     }
+
     return 0;
 }

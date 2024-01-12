@@ -1,3 +1,8 @@
+/*  Написать программу, которая для заданного натурального числа
+    выполняет разложение числа на простые множители 
+*/
+
+
 #include <iostream>
 #include <exception>
 
@@ -5,7 +10,7 @@
 void checkNumber(const int32_t number)
 {
     if (number < 1){
-        throw " Wrong number!\n";
+        throw std::exception (" Wrong number!\n");
     }
 }
 
@@ -51,11 +56,13 @@ int main()
         std::cout << " Write element:\n";
         inputNumber(number);
         checkNumber(number);
+
         std::cout << " Your number:\n" << number << " = ";
         factoringNumIntoPrimeFactors(number);
     }
-    catch (const char* msg){
-        std::cout << msg;
+    catch (std::exception e){
+        std::cout << e.what();
     }
+
     return 0;
 }
