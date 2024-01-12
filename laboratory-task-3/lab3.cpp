@@ -1,10 +1,11 @@
-/* В одномерном массиве, состоящем из п вещественных элементов, вычислить:
-- длину самой длинной цепочки попарно различных элементов, стоящих подряд;
-- сумму целых частей элементов массива, расположенных после последнего отрицательного
-элемента.
-Преобразовать массив таким образом, чтобы сначала располагались все элементы,
-отличающиеся от максимального не более чем на 20%, а потом — все остальные. Порядок
-следования элементов не изменять. */
+/*  В одномерном массиве, состоящем из п вещественных элементов, вычислить:
+    - длину самой длинной цепочки попарно различных элементов, стоящих подряд;
+    - сумму целых частей элементов массива, расположенных после последнего отрицательного
+    элемента.
+    Преобразовать массив таким образом, чтобы сначала располагались все элементы,
+    отличающиеся от максимального не более чем на 20%, а потом — все остальные. Порядок
+    следования элементов не изменять.
+*/
 
 
 #include <iostream>
@@ -21,7 +22,7 @@ void inputValue(T& value)
 
 void writeElem(int32_t number, double arr[])
 {
-    for (int32_t i = 0; i < number; i++){
+    for (int32_t i = 0; i < number; ++i){
         std::cin >> arr[i];
     }
 }
@@ -60,7 +61,7 @@ void menu(int32_t number, double  arr[], int32_t& lowBorder, int32_t& highBorder
         randomElements(number, arr, lowBorder, highBorder);
         break;
     default:
-        throw " Wrong command!\n ";
+        throw std::exception (" Wrong command!\n ");
         break;
     }
 }
@@ -78,12 +79,14 @@ void primalArray(int32_t number, double arr[])
 double max(int32_t number, double arr[])
 {
     double max = arr[0];
+
     for (int32_t i = 0; i < number; ++i){
         if (max < arr[i])
         {
             max = arr[i];
         }
     }
+
     return max;
 }
 
@@ -92,6 +95,7 @@ int32_t countLength(int32_t number, double arr[])
 {
     int32_t currentLength = 1;
     int32_t maxLength = 1;
+
     for (int32_t i = 1; i < number; ++i){
         if (arr[i] != arr[i - 1]){
             ++currentLength;
@@ -103,9 +107,11 @@ int32_t countLength(int32_t number, double arr[])
             currentLength = 1;
         }
     }
+
     if (currentLength > maxLength){
         maxLength = currentLength;
     }
+
     return maxLength;
 }
 
@@ -113,11 +119,13 @@ int32_t countLength(int32_t number, double arr[])
 int32_t negative(int32_t number, double arr[])
 {
     int32_t lastNegative = -1;
+
     for (int32_t i = 0; i < number; ++i){
         if (arr[i] < 0){
             lastNegative = i;
         }
     }
+
     return lastNegative;
 }
 
@@ -125,9 +133,11 @@ int32_t negative(int32_t number, double arr[])
 double sumAfterNegative(int32_t number, double arr[], int32_t lastnegative)
 {
     double sum = 0;
+
     for (size_t i = lastnegative + 1; i < number; ++i){
         sum += floor(arr[i]);
     }
+
     return sum;
 }
 
@@ -137,9 +147,11 @@ void conditionSumAfterNegative(int32_t number, double arr[])
     if (negative(number, arr) == number - 1){
         std::cout << " Summa does not exist!\n ";
     }
-    if (negative(number, arr) != -1 && negative(number, arr) != number - 1){
+
+    else if (negative(number, arr) != -1){
         std::cout << " Summa after last negative: " << sumAfterNegative(number, arr, negative(number, arr)) << '\n';
     }
+
     else{
         std::cout << " No negative elements\n";
     }
@@ -149,6 +161,7 @@ void conditionSumAfterNegative(int32_t number, double arr[])
 void conditionSort(int32_t number, double arr[])
 {
     int32_t count = 0;
+
     for (size_t i = 0; i <= number; ++i){
         int32_t count = 0;
         if (max(number, arr) >= 0){
@@ -192,7 +205,7 @@ int main()
         std::cout << " Write number:\n";
         inputValue(number);
         if (number < 1){
-            throw " Wrong number!\n ";
+            throw std::exception(" Wrong number!\n ");
         }
         else{
             std::cout << " choose elements ( press 1 ) or random elements ( press 2 )\n";
@@ -200,15 +213,19 @@ int main()
             menu(number, arr, lowBorder, highBorder, mode);
             std::cout << " Current array:\n ";
             primalArray(number, arr);
+
             std::cout << " The longest: " << countLength(number, arr) << '\n';
+
             conditionSumAfterNegative(number, arr);
             conditionSort(number, arr);
+
             std::cout << " Formed array:\n ";
             completeArray(number, arr);
         }
     }
-    catch (const char* msg){
-        std::cout << msg;
+    catch (std::exception e){
+        std::cout << e.what();
     }
+
     return 0;
 }
