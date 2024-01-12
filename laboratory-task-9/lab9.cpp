@@ -1,4 +1,8 @@
-//Пример 12 на фото
+/*  12. Строки текстового файла input.txt состоят из слов, разделенных одним  или несколькими пробелами. 
+    Перед первым, а также после последнего слова  строки пробелы могут отсутствовать. 
+    Требуется найти слова максимальной и  минимальной длины и поменять местами строки, содержащие эти слова.  
+    Если таких слов несколько – брать первые. 
+*/
 
 
 #include <iostream>
@@ -52,17 +56,22 @@ std::string transformString(const std::string line)
   size_t minWordLength = INT64_MAX;
   size_t counterWords = { 0 };
   begInd = line.find_first_not_of(" ");
+
   while (begInd != std::string::npos){
     std::string::size_type endInd;
-    endInd = line.find_first_of(" ", begInd); if (endInd == std::string::npos){
+    endInd = line.find_first_of(" ", begInd);
+
+    if (endInd == std::string::npos){
       endInd = line.length();
     }
+
     word = line.substr(begInd, endInd - begInd);
     checkMaxWord(word, begInd, maxWord, maxWordPosition, maxWordLength);
     checkMinWord(word, begInd, minWord, minWordPosition, minWordLength);
     ++counterWords;
     begInd = line.find_first_not_of(" ", endInd);
   }
+
   if (counterWords < 2){
     return line;
   }
@@ -78,6 +87,7 @@ std::string transformString(const std::string line)
         newLine.append(line.substr(maxWordPosition + maxWordLength, minWordPosition - (maxWordPosition + maxWordLength)));
         newLine.append(line.substr(maxWordPosition, maxWordLength));
         newLine.append(line.substr(minWordPosition + minWordLength));
+
         return newLine;
       }
       else{
@@ -86,6 +96,7 @@ std::string transformString(const std::string line)
         newLine.append(line.substr(minWordPosition + minWordLength, maxWordPosition - (minWordPosition + minWordLength)));
         newLine.append(line.substr(minWordPosition, minWordLength));
         newLine.append(line.substr(maxWordPosition + maxWordLength));
+
         return newLine;
       }
     }
@@ -115,4 +126,6 @@ int main()
   catch (const std::exception &e){
     std::cout << e.what() << '\n';
   }
+
+  return 0;
 }
