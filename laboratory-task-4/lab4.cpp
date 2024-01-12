@@ -1,7 +1,8 @@
-/* В целочисленной квадратной матрице nxn (3&lt;=n&lt;=101, n - нечетное) найти:
-- найти сумму элементов нижнего правого треугольника;
-- начиная с центра, обойти по спирали все элементы квадратной, выводя их в
-порядке обхода. Обход выполнять по часовой стрелки, первый ход - вниз. */
+/*  В целочисленной квадратной матрице nxn (3&lt;=n&lt;=101, n - нечетное) найти:
+    - найти сумму элементов нижнего правого треугольника;
+    - начиная с центра, обойти по спирали все элементы квадратной, выводя их в
+    порядке обхода. Обход выполнять по часовой стрелки, первый ход - вниз. 
+*/
 
 
 #include <iostream>
@@ -34,7 +35,6 @@ void random(const int32_t rows, int32_t**& mtrx, const int32_t low_border, const
             mtrx[i][j] = (rand() % (high_border - low_border)) + low_border;
         }
     }
-    return;
 }
 
 
@@ -51,7 +51,7 @@ void checkRows(int32_t**& mtrx, const int32_t rows)
 {
     if (rows < 3  || rows % 2 != 1){
         deleteMtrx(mtrx, rows);
-        throw " Wrong size!\n";
+        throw std::exception (" Wrong size!\n");
     }
 }
 
@@ -59,6 +59,7 @@ void checkRows(int32_t**& mtrx, const int32_t rows)
 void allocMemoryForTheMtrx(int32_t**& mtrx, const int32_t rows)
 {
     mtrx = new int32_t * [rows];
+
     for (int32_t i = 0; i < rows; ++i){
         mtrx[i] = new int32_t[rows];
     }
@@ -93,7 +94,7 @@ void menu(const int32_t rows, int32_t**& mtrx, int32_t& low_border, int32_t& hig
         break;
     default:
         deleteMtrx(mtrx, rows);
-        throw " Wrong command!\n";
+        throw std::exception(" Wrong command!\n");
         break;
     }
 }
@@ -114,20 +115,25 @@ void outputMtrx(const int32_t** mtrx, const int32_t rows)
 
 int32_t lowRightTriangleSum(const int32_t** mtrx, const int32_t rows)
 {
-    int32_t triangeSum = 0, counter = 1;
+    int32_t triangeSum = 0;
+    int32_t counter = 1;
+
     for (size_t i = 0; i < rows; ++i){
         for (size_t j = rows - counter; j < rows; ++j){
             triangeSum += mtrx[i][j];
         }
         ++counter;
     }
+
     return triangeSum;
 }
 
 
 void outputSpiral(const int32_t** mtrx, const int32_t rows)
 {
-    int32_t counter = 0, mid = (rows - 1) / 2;
+    int32_t counter = 0;
+    int32_t mid = (rows - 1) / 2;
+
     std::cout << mtrx[mid][mid] << " ";
     for (int32_t i = 0; i < rows - 1; i += 2){
         for (size_t j = 0; j <= i + 1; ++j){
@@ -156,6 +162,7 @@ int main()
         int32_t high_border = 0;
         int32_t** mtrx = nullptr;
 
+
         std::cout << " Write size of matrix:\n";
         inputValue(rows);
         checkRows(mtrx, rows);
@@ -174,8 +181,9 @@ int main()
         outputSpiral(mtrx, rows);
         deleteMtrx(mtrx, rows);
     }
-    catch (const char* msg){
-        std::cout << msg;
+    catch (std::exception e) {
+        std::cout << e.what();
     }
+
     return 0;
 }
