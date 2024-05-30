@@ -1,0 +1,26 @@
+ 0 
+Dmitro 1 1
+Drosd 2 2
+Filin 3 1
+Ghoust 3 2
+Herb 2 1
+Jackson 2 1
+Kenned 2 1
+Lampard 2 1
+Malec 2 2
+Man 1 1
+McTavish 3 2
+Micky 1 2
+Patison 2 1
+Price 3 2
+Rgen 1 1
+Rubic 2 2
+Snegir 3 1
+Soap 3 2
+Solovey 3 1
+Sova 3 1
+Stepa 1 2
+Vanya 2 2
+Verstrasse 1 2
+Xexs 1 2
+ZubenkoMichailPetrovich 1 1
