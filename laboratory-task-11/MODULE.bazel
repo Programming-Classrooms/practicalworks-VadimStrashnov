@@ -1,0 +1,6 @@
+module(
+    name = "cpp_app",
+    repo_name = "cpp_app",
+    version = "1.0",
+    compatibility_level = 1
+)
